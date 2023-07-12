@@ -3,6 +3,7 @@ package com.example.cashflow.service;
 import com.example.cashflow.dto.CategoryDTO;
 import com.example.cashflow.model.Category;
 import com.example.cashflow.repository.CategoryRepository;
+import com.example.cashflow.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id) {
         Optional<Category> obj = repository.findById(id);
-        Category entity = obj.get();
+        Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new CategoryDTO(entity);
     }
 }
