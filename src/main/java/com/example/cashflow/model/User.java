@@ -20,7 +20,8 @@ public class User extends Person{
     public User() {
     }
 
-    public User(String username, String email, String password) {
+    public User(String name, String username, String email, String password) {
+        super(name);
         this.username = username;
         this.email = email;
         this.password = password;
