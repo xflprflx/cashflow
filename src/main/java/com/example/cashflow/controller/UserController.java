@@ -1,10 +1,14 @@
 package com.example.cashflow.controller;
 
 import com.example.cashflow.dto.UserDTO;
+import com.example.cashflow.form.UserForm;
 import com.example.cashflow.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -26,6 +30,14 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDTO> insert(@RequestBody @Valid UserForm form, UriComponentsBuilder uriBuilder) {
+        UserDTO userDTO = userService.save(form);
+
+        URI uri = uriBuilder.path("users/{id}").buildAndExpand(userDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(userDTO);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.cashflow.service;
 
 import com.example.cashflow.dto.UserDTO;
+import com.example.cashflow.form.UserForm;
+import com.example.cashflow.mapper.UserMapper;
 import com.example.cashflow.model.User;
 import com.example.cashflow.repository.UserRepository;
 import com.example.cashflow.service.exceptions.ResourceNotFoundException;
@@ -30,6 +32,14 @@ public class UserService {
     public UserDTO findById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return new UserDTO(user);
+    }
+
+    @Transactional
+    public UserDTO save(UserForm form) {
+        User user = new UserMapper().create(form);
+        userRepository.save(user);
+
         return new UserDTO(user);
     }
 

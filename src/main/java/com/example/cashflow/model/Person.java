@@ -14,11 +14,12 @@ public abstract class Person {
     @Column(nullable = false)
     private String name;
 
-    public Person() {
-    }
-
     public Person(String name) {
         this.name = name;
+    }
+
+    public Person() {
+
     }
 
     public long getId() {
