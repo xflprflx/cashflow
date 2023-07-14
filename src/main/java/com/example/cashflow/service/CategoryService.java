@@ -1,6 +1,8 @@
 package com.example.cashflow.service;
 
 import com.example.cashflow.dto.CategoryDTO;
+import com.example.cashflow.form.CategoryForm;
+import com.example.cashflow.mapper.CategoryMapper;
 import com.example.cashflow.model.Category;
 import com.example.cashflow.repository.CategoryRepository;
 import com.example.cashflow.service.exceptions.ResourceNotFoundException;
@@ -33,10 +35,9 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryDTO insert(CategoryDTO dto) {
-        Category entity = new Category();
-        entity.setName(dto.getName());
-        entity = repository.save(entity);
-        return new CategoryDTO(entity);
+    public CategoryDTO insert(CategoryForm form) {
+        Category category = new CategoryMapper().create(form);
+        category = repository.save(category);
+        return new CategoryDTO(category);
     }
 }

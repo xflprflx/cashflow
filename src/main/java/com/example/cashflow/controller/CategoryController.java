@@ -1,6 +1,7 @@
 package com.example.cashflow.controller;
 
 import com.example.cashflow.dto.CategoryDTO;
+import com.example.cashflow.form.CategoryForm;
 import com.example.cashflow.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto) {
-        dto = service.insert(dto);
+    public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryForm form) {
+        CategoryDTO dto = service.insert(form);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
