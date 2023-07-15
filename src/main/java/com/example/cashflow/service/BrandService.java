@@ -19,6 +19,7 @@ public class BrandService {
     @Autowired
     private BrandRepository repository;
 
+    @Transactional(readOnly = true)
     public List<BrandDTO> findAll() {
         List<Brand> brands = repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return brands.stream().map(BrandDTO::new).collect(Collectors.toList());
