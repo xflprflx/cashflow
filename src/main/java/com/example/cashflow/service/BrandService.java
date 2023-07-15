@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,5 +44,16 @@ public class BrandService {
         Brand brand = new BrandMapper().create(form);
         brand = repository.save(brand);
         return new BrandDTO(brand);
+    }
+
+    @Transactional
+    public BrandDTO update(Long id, BrandForm form) {
+        try {
+            Brand entity = repository.getReferenceById(id);
+            entity.setName(form.getName());
+            return new BrandDTO(repository.save(entity));
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found: " + id);
+        }
     }
 }
