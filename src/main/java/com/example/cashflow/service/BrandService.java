@@ -6,6 +6,7 @@ import com.example.cashflow.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ public class BrandService {
     @Autowired
     private BrandRepository repository;
 
+    @Transactional(readOnly = true)
     public List<BrandDTO> findAll() {
         List<Brand> brands = repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return brands.stream().map(BrandDTO::new).collect(Collectors.toList());
