@@ -1,7 +1,13 @@
 package com.example.cashflow.service;
 
 import com.example.cashflow.dto.BrandDTO;
+import com.example.cashflow.dto.CategoryDTO;
+import com.example.cashflow.form.BrandForm;
+import com.example.cashflow.form.CategoryForm;
+import com.example.cashflow.mapper.BrandMapper;
+import com.example.cashflow.mapper.CategoryMapper;
 import com.example.cashflow.model.Brand;
+import com.example.cashflow.model.Category;
 import com.example.cashflow.repository.BrandRepository;
 import com.example.cashflow.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +36,12 @@ public class BrandService {
         Optional<Brand> obj = repository.findById(id);
         Brand entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found."));
         return new BrandDTO(entity);
+    }
+
+    @Transactional
+    public BrandDTO insert(BrandForm form) {
+        Brand brand = new BrandMapper().create(form);
+        brand = repository.save(brand);
+        return new BrandDTO(brand);
     }
 }
