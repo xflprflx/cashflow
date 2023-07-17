@@ -37,4 +37,10 @@ public class BrandController {
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<BrandDTO> update(@PathVariable Long id, @RequestBody BrandForm form) {
+        BrandDTO dto = service.update(id, form);
+        return ResponseEntity.ok().body(dto);
+    }
 }
