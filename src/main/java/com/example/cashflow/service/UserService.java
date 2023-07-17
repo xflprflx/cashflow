@@ -1,8 +1,11 @@
 package com.example.cashflow.service;
 
+import com.example.cashflow.dto.CategoryDTO;
 import com.example.cashflow.dto.UserDTO;
+import com.example.cashflow.form.UpdateUserForm;
 import com.example.cashflow.form.UserForm;
 import com.example.cashflow.mapper.UserMapper;
+import com.example.cashflow.model.Category;
 import com.example.cashflow.model.User;
 import com.example.cashflow.repository.UserRepository;
 import com.example.cashflow.service.exceptions.ResourceNotFoundException;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,4 +47,11 @@ public class UserService {
         return new UserDTO(user);
     }
 
+    public UserDTO update(Long id, UpdateUserForm form) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
+
+        User updated = new UserMapper().update(user, form);
+        return new UserDTO(updated);
+    }
 }
