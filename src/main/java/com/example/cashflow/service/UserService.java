@@ -47,6 +47,7 @@ public class UserService {
         return new UserDTO(user);
     }
 
+    @Transactional
     public UserDTO update(Long id, UpdateUserForm form) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
