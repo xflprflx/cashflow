@@ -59,7 +59,6 @@ public class UserService {
         return new UserDTO(updated);
     }
 
-    @Transactional
     public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
