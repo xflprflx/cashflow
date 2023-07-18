@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,5 +44,18 @@ public class ProductService {
         Product product = new ProductMapper().create(form);
         product = repository.save(product);
         return new ProductDTO(product);
+    }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductForm form) {
+        try {
+            Product entity = repository.getReferenceById(id);
+            entity.setName(form.getName());
+            entity.setDescription(form.getDescription());
+            entity.setPrice(form.getPrice());
+            return new ProductDTO(repository.save(entity));
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found: " + id);
+        }
     }
 }
