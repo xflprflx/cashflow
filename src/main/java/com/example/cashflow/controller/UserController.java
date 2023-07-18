@@ -1,6 +1,9 @@
 package com.example.cashflow.controller;
 
+import com.example.cashflow.dto.CategoryDTO;
 import com.example.cashflow.dto.UserDTO;
+import com.example.cashflow.form.CategoryForm;
+import com.example.cashflow.form.UpdateUserForm;
 import com.example.cashflow.form.UserForm;
 import com.example.cashflow.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +41,12 @@ public class UserController {
 
         URI uri = uriBuilder.path("users/{id}").buildAndExpand(userDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(userDTO);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UpdateUserForm form) {
+        UserDTO userDTO = userService.update(id, form);
+        return ResponseEntity.ok().body(userDTO);
     }
 
 }
