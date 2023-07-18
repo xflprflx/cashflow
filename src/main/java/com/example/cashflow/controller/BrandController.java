@@ -1,9 +1,7 @@
 package com.example.cashflow.controller;
 
 import com.example.cashflow.dto.BrandDTO;
-import com.example.cashflow.dto.CategoryDTO;
 import com.example.cashflow.form.BrandForm;
-import com.example.cashflow.form.CategoryForm;
 import com.example.cashflow.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
