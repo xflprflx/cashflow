@@ -3,6 +3,7 @@ package com.example.cashflow.dto;
 import com.example.cashflow.model.Product;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class ProductDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -10,12 +11,12 @@ public class ProductDTO implements Serializable {
     private Long id;
     private String name;
     private String description;
-    private Double price;
+    private BigDecimal price;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, String description, Double price) {
+    public ProductDTO(Long id, String name, String description, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -53,11 +54,11 @@ public class ProductDTO implements Serializable {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }
