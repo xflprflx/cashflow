@@ -1,6 +1,8 @@
 package com.example.cashflow.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -16,6 +18,9 @@ public class User extends Person{
     private String password;
 
     private String phone;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Person> persons = new ArrayList<>();
 
     public User() {
     }
