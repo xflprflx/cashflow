@@ -20,7 +20,7 @@ public class UserForm {
             message = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character")
     private String password;
 
-    private String phone;
+    private String phone;   
 
     public String getName() {
         return name;

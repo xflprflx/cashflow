@@ -1,8 +1,6 @@
 package com.example.cashflow.controller;
 
-import com.example.cashflow.dto.CategoryDTO;
 import com.example.cashflow.dto.UserDTO;
-import com.example.cashflow.form.CategoryForm;
 import com.example.cashflow.form.UpdateUserForm;
 import com.example.cashflow.form.UserForm;
 import com.example.cashflow.service.UserService;
@@ -30,26 +28,26 @@ public class UserController {
         return ResponseEntity.ok().body(userService.findAll());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@RequestBody @Valid UserForm form, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<UserDTO> create(@RequestBody @Valid UserForm form, UriComponentsBuilder uriBuilder) {
         UserDTO userDTO = userService.save(form);
 
         URI uri = uriBuilder.path("users/{id}").buildAndExpand(userDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(userDTO);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UpdateUserForm form) {
-        UserDTO userDTO = userService.update(id, form);
+    @PutMapping
+    public ResponseEntity<UserDTO> update(@RequestBody @Valid UpdateUserForm form) {
+        UserDTO userDTO = userService.update(form);
         return ResponseEntity.ok().body(userDTO);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
