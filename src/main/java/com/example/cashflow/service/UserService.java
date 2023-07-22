@@ -51,9 +51,9 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UpdateUserForm form) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
+    public UserDTO update(UpdateUserForm form) {
+        User user = userRepository.findById(form.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + form.getId()));
 
         User updated = new UserMapper().update(user, form);
         return new UserDTO(updated);
@@ -61,7 +61,7 @@ public class UserService {
 
     public void delete(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
 
         try {
             userRepository.delete(user);
