@@ -1,8 +1,10 @@
 package com.example.cashflow.controller;
 
 import com.example.cashflow.dto.BrandDTO;
+import com.example.cashflow.dto.ProductDTO;
 import com.example.cashflow.form.BrandForm;
-import com.example.cashflow.service.BrandService;
+import com.example.cashflow.form.ProductForm;
+import com.example.cashflow.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,39 +14,33 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/brands")
-public class BrandController {
+@RequestMapping(value = "/products")
+public class ProductController {
 
     @Autowired
-    private BrandService service;
+    private ProductService service;
 
     @GetMapping
-    public ResponseEntity<List<BrandDTO>> findAll() {
+    public ResponseEntity<List<ProductDTO>> findAll() {
         return ResponseEntity.ok().body(service.findAll());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BrandDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<BrandDTO> insert(@RequestBody BrandForm form) {
-        BrandDTO dto = service.insert(form);
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductForm form) {
+        ProductDTO dto = service.insert(form);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<BrandDTO> update(@PathVariable Long id, @RequestBody BrandForm form) {
-        BrandDTO dto = service.update(id, form);
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductForm form) {
+        ProductDTO dto = service.update(id, form);
         return ResponseEntity.ok().body(dto);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
     }
 }
