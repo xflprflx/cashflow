@@ -3,6 +3,7 @@ package com.example.cashflow.form;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 public class ProductForm {
 
@@ -13,7 +14,7 @@ public class ProductForm {
     @NotBlank(message = "The price field cannot be blank")
     @DecimalMin(value = "0.01", message = "Minimum price should be 0.01")
     @Digits(integer = Integer.MAX_VALUE, fraction = 2, message = "The price must have a maximum of 2 decimal places")
-    private Double price;
+    private BigDecimal price;
 
     public String getName() {
         return name;
@@ -31,11 +32,11 @@ public class ProductForm {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

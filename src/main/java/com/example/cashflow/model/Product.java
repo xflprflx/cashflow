@@ -2,6 +2,7 @@ package com.example.cashflow.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -17,18 +18,18 @@ public class Product implements Serializable {
     @Column(nullable = false, length = 150)
     private String description;
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price = BigDecimal.ZERO;
 
     public Product() {
     }
 
-    public Product(String name, String description, Double price) {
+    public Product(String name, String description, BigDecimal price) {
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    public Product(Long id, String name, String description, Double price) {
+    public Product(Long id, String name, String description, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -59,11 +60,11 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

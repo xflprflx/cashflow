@@ -9,8 +9,11 @@ import com.example.cashflow.mapper.ProductMapper;
 import com.example.cashflow.model.Category;
 import com.example.cashflow.model.Product;
 import com.example.cashflow.repository.ProductRepository;
+import com.example.cashflow.service.exceptions.DatabaseException;
 import com.example.cashflow.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +59,18 @@ public class ProductService {
             return new ProductDTO(repository.save(entity));
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found: " + id);
+        }
+    }
+
+    public void delete(Long id) {
+        try {
+            repository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Id not found: " + id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation");
         }
     }
 }
