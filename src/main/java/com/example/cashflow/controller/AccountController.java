@@ -3,8 +3,10 @@ package com.example.cashflow.controller;
 
 import com.example.cashflow.dto.AccountDTO;
 import com.example.cashflow.form.AccountForm;
+import com.example.cashflow.form.UpdateAccountForm;
 import com.example.cashflow.model.Account;
 import com.example.cashflow.service.AccountService;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,12 @@ public class AccountController {
 
         URI uri = uriBuilder.path("/account/{id}").buildAndExpand(accountDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(accountDTO);
+    }
+
+    @PutMapping
+    public ResponseEntity<AccountDTO> update(@RequestBody @Valid UpdateAccountForm form) {
+        AccountDTO accountDTO = accountService.update(form);
+        return ResponseEntity.ok(accountDTO);
     }
 
 }

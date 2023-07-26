@@ -2,6 +2,7 @@ package com.example.cashflow.service;
 
 import com.example.cashflow.dto.AccountDTO;
 import com.example.cashflow.form.AccountForm;
+import com.example.cashflow.form.UpdateAccountForm;
 import com.example.cashflow.mapper.AccountMapper;
 import com.example.cashflow.model.Account;
 import com.example.cashflow.repository.AccountRepository;
@@ -36,10 +37,21 @@ public class AccountService {
         return new AccountDTO(account);
     }
 
+    @Transactional
     public AccountDTO insert(AccountForm form) {
         Account account = new AccountMapper().create(form);
         accountRepository.save(account);
 
         return new AccountDTO(account);
+    }
+
+    @Transactional
+    public AccountDTO update(UpdateAccountForm form) {
+        Account account = accountRepository
+                .findById(form.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+
+        Account updated = new AccountMapper().update(account, form);
+        return new AccountDTO(updated);
     }
 }
