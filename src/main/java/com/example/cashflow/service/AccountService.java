@@ -5,9 +5,13 @@ import com.example.cashflow.form.AccountForm;
 import com.example.cashflow.form.UpdateAccountForm;
 import com.example.cashflow.mapper.AccountMapper;
 import com.example.cashflow.model.Account;
+import com.example.cashflow.model.User;
 import com.example.cashflow.repository.AccountRepository;
+import com.example.cashflow.service.exceptions.DatabaseException;
 import com.example.cashflow.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,5 +57,18 @@ public class AccountService {
 
         Account updated = new AccountMapper().update(account, form);
         return new AccountDTO(updated);
+    }
+
+    public void delete(Long id) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found: " + id));
+
+        try {
+            accountRepository.delete(account);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Account not found: " + id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation");
+        }
     }
 }
