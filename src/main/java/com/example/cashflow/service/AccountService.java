@@ -1,6 +1,8 @@
 package com.example.cashflow.service;
 
 import com.example.cashflow.dto.AccountDTO;
+import com.example.cashflow.form.AccountForm;
+import com.example.cashflow.mapper.AccountMapper;
 import com.example.cashflow.model.Account;
 import com.example.cashflow.repository.AccountRepository;
 import com.example.cashflow.service.exceptions.ResourceNotFoundException;
@@ -30,6 +32,13 @@ public class AccountService {
         Account account = accountRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+
+        return new AccountDTO(account);
+    }
+
+    public AccountDTO insert(AccountForm form) {
+        Account account = new AccountMapper().create(form);
+        accountRepository.save(account);
 
         return new AccountDTO(account);
     }
