@@ -8,15 +8,16 @@ import java.util.List;
 @Table(name = "users")
 @PrimaryKeyJoinColumn(name = "person_id")
 public class User extends Person{
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String password;
 
+    @Column(length = 14)
     private String phone;
 
     @OneToMany(cascade = CascadeType.ALL)
