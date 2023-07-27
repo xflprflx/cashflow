@@ -1,5 +1,6 @@
 package com.example.cashflow.dto;
 
+import com.example.cashflow.model.Brand;
 import com.example.cashflow.model.Category;
 import com.example.cashflow.model.Product;
 
@@ -17,6 +18,7 @@ public class ProductDTO implements Serializable {
     private String description;
     private BigDecimal price;
 
+    private BrandDTO brand;
     private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO() {
@@ -36,8 +38,9 @@ public class ProductDTO implements Serializable {
         this.price = entity.getPrice();
     }
 
-    public ProductDTO(Product entity, Set<Category> categories) {
+    public ProductDTO(Product entity, Brand brand, Set<Category> categories) {
         this(entity);
+        this.brand = new BrandDTO(brand);
         categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 
@@ -71,6 +74,14 @@ public class ProductDTO implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public BrandDTO getBrand() {
+        return brand;
+    }
+
+    public void setBrand(BrandDTO brand) {
+        this.brand = brand;
     }
 
     public List<CategoryDTO> getCategories() {

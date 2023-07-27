@@ -2,7 +2,9 @@ package com.example.cashflow.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "brands")
@@ -14,6 +16,9 @@ public class Brand implements Serializable {
     private Long id;
     @Column(nullable = false, length = 150)
     private String name;
+
+    @OneToMany(mappedBy = "brand")
+    private Set<Product> products = new HashSet<>();
 
     public Brand() {
     }
@@ -41,6 +46,10 @@ public class Brand implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
     }
 
     @Override
