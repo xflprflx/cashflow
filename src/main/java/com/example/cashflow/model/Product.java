@@ -3,7 +3,9 @@ package com.example.cashflow.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -19,6 +21,16 @@ public class Product implements Serializable {
     private String description;
     @Column(nullable = false)
     private BigDecimal price = BigDecimal.ZERO;
+
+    @ManyToMany
+    @JoinTable(name = "product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    Set<Category> categories = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     public Product() {
     }
@@ -66,6 +78,18 @@ public class Product implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     @Override

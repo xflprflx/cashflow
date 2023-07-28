@@ -1,13 +1,12 @@
 package com.example.cashflow.service;
 
-import com.example.cashflow.dto.CategoryDTO;
 import com.example.cashflow.dto.ProductDTO;
-import com.example.cashflow.form.CategoryForm;
 import com.example.cashflow.form.ProductForm;
-import com.example.cashflow.mapper.CategoryMapper;
 import com.example.cashflow.mapper.ProductMapper;
-import com.example.cashflow.model.Category;
+import com.example.cashflow.model.Brand;
 import com.example.cashflow.model.Product;
+import com.example.cashflow.repository.BrandRepository;
+import com.example.cashflow.repository.CategoryRepository;
 import com.example.cashflow.repository.ProductRepository;
 import com.example.cashflow.service.exceptions.DatabaseException;
 import com.example.cashflow.service.exceptions.ResourceNotFoundException;
@@ -29,6 +28,12 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private BrandRepository brandRepository;
+
     @Transactional(readOnly = true)
     public List<ProductDTO> findAll() {
         List<Product> list = repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
@@ -39,14 +44,14 @@ public class ProductService {
     public ProductDTO findById(Long id) {
         Optional<Product> obj = repository.findById(id);
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new ProductDTO(entity);
+        return new ProductDTO(entity, entity.getBrand(), entity.getCategories());
     }
 
     @Transactional
     public ProductDTO insert(ProductForm form) {
-        Product product = new ProductMapper().create(form);
+        Product product = new ProductMapper(categoryRepository, brandRepository).create(form);
         product = repository.save(product);
-        return new ProductDTO(product);
+        return new ProductDTO(product, product.getBrand(), product.getCategories());
     }
 
     @Transactional

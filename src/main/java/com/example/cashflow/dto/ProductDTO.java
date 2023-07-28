@@ -1,9 +1,14 @@
 package com.example.cashflow.dto;
 
+import com.example.cashflow.model.Brand;
+import com.example.cashflow.model.Category;
 import com.example.cashflow.model.Product;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ProductDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,6 +17,9 @@ public class ProductDTO implements Serializable {
     private String name;
     private String description;
     private BigDecimal price;
+
+    private BrandDTO brand;
+    private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO() {
     }
@@ -28,6 +36,12 @@ public class ProductDTO implements Serializable {
         this.name = entity.getName();
         this.description = entity.getDescription();
         this.price = entity.getPrice();
+    }
+
+    public ProductDTO(Product entity, Brand brand, Set<Category> categories) {
+        this(entity);
+        this.brand = new BrandDTO(brand);
+        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 
     public Long getId() {
@@ -60,5 +74,17 @@ public class ProductDTO implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public BrandDTO getBrand() {
+        return brand;
+    }
+
+    public void setBrand(BrandDTO brand) {
+        this.brand = brand;
+    }
+
+    public List<CategoryDTO> getCategories() {
+        return categories;
     }
 }

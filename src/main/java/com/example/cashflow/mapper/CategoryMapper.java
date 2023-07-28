@@ -8,4 +8,5 @@ public class CategoryMapper {
     public Category create (CategoryForm form) {
         return new Category(form.getName());
     }
+
 }
